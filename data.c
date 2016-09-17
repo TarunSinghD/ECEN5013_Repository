@@ -1,4 +1,5 @@
 #include "data.h"
+#include <stdio.h>
 
 /* Description:
  * This function converts the integer present in data to a null terminated string in str, conversion is done based on the base
@@ -93,7 +94,39 @@ int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
  * Note:
  * The function considers a negative number for base 10 only, number is considerd to be unsigned for the rest of the bases.
  */
-//int32_t my_atoi(int8_t * str)
+int32_t my_atoi(int8_t * str)
+{
+	/* A variable to store the return value */
+	int32_t result = 0;
+
+	/* A loop variable */
+	uint8_t i = 0;
+
+	/* Variable to keep track of the sign */
+	uint8_t sign = 0;
+
+	/* Check for negative numbers */
+	if (*str == '-')
+	{
+		i++;
+		sign = 1;
+	}
+	
+	/* Sweep through the characters of the number, one digit at a time and add it to result */
+	for (; /*(*(str + i) != '\n') ||*/ (*(str + i) != '\0'); i++)
+	{
+		result = (result * 10) + (*(str + i) - '0');
+	}
+
+	/* Check for sign */
+	if (sign)
+	{
+		result = -result;
+	}
+
+	return result;
+}
+
 
 /* Description:
  * This function fills "length" number of bytes of data starting from memory location pointed by src
