@@ -75,11 +75,19 @@ uint8_t my_memzero(uint8_t * src, uint32_t length)
  */
 uint8_t my_reverse(uint8_t * src, uint32_t length)
 {
-	/* Start swapping the characters, first character with the last character, second character with the second last and so on */
+	/* Temporary array to store the reversed source array */
+	uint8_t temp[length];
 
-	for (i = 0; i < (length / 2); i++)
+	/* Start swapping the characters, first character with the last character, second character with the second last and so on */
+	for (i = 0; i < length; i++)
 	{
-		*(src + i) = *(src + length - 1 - i);
+		*(temp + i) = *(src + length - 1 - i);
+	}
+
+	/* String the reversed array back to the source array */
+	for (i = 0; i < length; i++)
+	{
+		*(src + i) = *(temp + i);
 	}
 
 	return 0;
