@@ -35,7 +35,7 @@ int main()
 	#endif
 
 	/* Testing atoi */
-	#if 1
+	#if 0
 	/* Variable to accept user input */
 	int8_t str[STRING_LENGTH];	
 
@@ -50,6 +50,13 @@ int main()
 	printf("Number after conversion is:%d\n", result);
 
 	#endif
+
+	/* Testing for memory dump */
+	#if 1
+	uint8_t arr[MAX_LENGTH] = {0x12, 0x34, 0x56, 0x78, 0x90, 0xab, 0xcd, 0xef, 0xff, 0xee, 0xdd, 0xcc, 0xbb, 0xaa, 0x99, 0x88};
+	dump_memory(arr, MAX_LENGTH);
+
+	#endif	
 
 
 	return 0;

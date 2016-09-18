@@ -81,18 +81,13 @@ int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
 }
 
 /* Description:
- * This function converts the integer present in data to a null terminated string in str, conversion is done based on the base
+ * This function converts a string of numbers to a integer value
  *
  * Inputs:
- * a) A pointer to the string that will store the conversted ASCII string, str.
- * b) Signed integer data, data.
- * c) The base on which conversion is to be done, length.
+ * a) A pointer to the string that will store the input ASCII string, str.
  *
  * Output/ Return value:
- * A pointer to the converted string
- * 
- * Note:
- * The function considers a negative number for base 10 only, number is considerd to be unsigned for the rest of the bases.
+ * Converted integer value
  */
 int32_t my_atoi(int8_t * str)
 {
@@ -127,6 +122,36 @@ int32_t my_atoi(int8_t * str)
 	return result;
 }
 
+/* Description:
+ * This takes a pointer to memory and prints the hex output of bytes given a pointer to a memory location and a length of bytes to print
+ *
+ * Inputs:
+ * a) A pointer to memory, str.
+ * b) Length of bytes to print, length.
+ *
+ * Output/ Return value:
+ * NA pointer to the converted string
+ */
+void dump_memory(uint8_t * start, uint32_t length)
+{
+	/* A loop variable */
+	uint8_t i = 0;
+	
+	for (i = 0; i < length; i++)
+	{
+		if (((i) % 8) == 0)
+		{
+			printf("%p\t", (start + i));
+		}
+
+		printf("%x\t", *(start + i));
+
+		if (((i + 1) % 8) == 0)
+		{
+			puts("");
+		}
+	} 
+}
 
 /* Description:
  * This function fills "length" number of bytes of data starting from memory location pointed by src
