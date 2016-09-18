@@ -153,6 +153,65 @@ void dump_memory(uint8_t * start, uint32_t length)
 	} 
 }
 
+
+/* Description:
+ * Given data in big endian format, need to convert it to little endian format and return this converted data.
+ *
+ * Inputs:
+ * a) 32 bit data in big endian format.
+ *
+ * Output/ Return value:
+ * a) 32 bit data stored in little endian format.
+ */
+uint32_t big_to_little(uint32_t data)
+{
+	/* A loop variable */
+	uint8_t i = 0;
+	
+	/* A variable to store the result */
+	uint32_t result = 0;
+
+	uint8_t * result_ptr = (uint8_t *) &result;
+	uint8_t * ptr = (uint8_t *) &data;
+
+	/* 4 because there are 4 bytes in 32 bits */
+	for (i = 0; i < 4; i++)
+	{
+		*(result_ptr + 3 - i) = *(ptr + i); 
+	}
+
+	return result;
+}
+
+/* Description:
+ * Given data in little endian format, need to convert it to big endian format and return this converted data.
+ *
+ * Inputs:
+ * a) 32 bit data in little endian format.
+ *
+ * Output/ Return value:
+ * a) 32 bit data stored in big endian format.
+ */
+uint32_t little_to_big(uint32_t data)
+{
+	/* A loop variable */
+	uint8_t i = 0;
+	
+	/* A variable to store the result */
+	uint32_t result = 0;
+
+	uint8_t * result_ptr = (uint8_t *) &result;
+	uint8_t * ptr = (uint8_t *) &data;
+
+	/* 4 because there are 4 bytes in 32 bits */
+	for (i = 0; i < 4; i++)
+	{
+		*(result_ptr + 3 - i) = *(ptr + i);
+	}
+
+	return result;
+}	
+
 /* Description:
  * This function fills "length" number of bytes of data starting from memory location pointed by src
  *
