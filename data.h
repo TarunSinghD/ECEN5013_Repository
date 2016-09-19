@@ -1,3 +1,13 @@
+/*
+ ***********************************************************************************
+ * Description	: Header file for data.c
+ * Author	: Tarun
+ * Date		: 17 September 2016
+ * File name	: data.h
+ *
+ ***********************************************************************************
+ */
+
 #ifndef DATA_H
 #define DATA_H
 #include <stdint.h>

@@ -1,10 +1,22 @@
+/*
+ ***********************************************************************************
+ * Description	: This file contains the functions for basic memory manipulation
+ *		  operations
+ * Author	: Tarun
+ * Date		: 17 September 2016
+ * File name	: memory.c
+ *
+ ***********************************************************************************
+ */
+
 #include "memory.h"
 
 /* A loop variable */
 uint8_t i;
 
 /* Description:
- * This function moves "length" number of bytes of data starting from memory location pointed by src to memory location pointed by dst
+ * This function moves "length" number of bytes of data starting from memory location
+ * pointed by src to memory location pointed by dst
  *
  * Inputs:
  * a) A pointer to the source memory location, src.
@@ -25,6 +37,13 @@ uint8_t my_memmove(uint8_t * src, uint8_t * dst, uint32_t length)
 	/* A temporary array to store n bytes of data from the source location */
 	uint8_t temp[length];
 
+	/* Check if either the source or destination pointer is NULL */
+	if ((src == NULL) || (dst == NULL))
+	{
+		/* return error */
+		return 1;
+	}
+
 	/* Copying the source contents to temporary memory location */
 	for (i = 0; i < length; i++)
 	{
@@ -37,11 +56,13 @@ uint8_t my_memmove(uint8_t * src, uint8_t * dst, uint32_t length)
 		*(dst + i) = *(temp + i);
 	}
 
+	/* Successful completion */
 	return 0;
 }
 
 /* Description:
- * This function fills "length" number of bytes of data starting from memory location pointed by src
+ * This function fills "length" number of bytes of data starting from memory location 
+ * pointed by src
  *
  * Inputs:
  * a) A pointer to the source memory location, src.
@@ -53,17 +74,26 @@ uint8_t my_memmove(uint8_t * src, uint8_t * dst, uint32_t length)
  */
 uint8_t my_memzero(uint8_t * src, uint32_t length)
 {
+	/* Check if the source pointer is NULL */
+	if (src == NULL)
+	{
+		/* return error */
+		return 1;
+	}
+
 	/* Reset the memory location 1 byte at a time */
 	for (i = 0; i < length; i++)
 	{
 		*(src + i) = 0;
 	}
 
+	/* Successful completion */
 	return 0;
 }
 	
 /* Description:
- * This function fills "length" number of bytes of data starting from memory location pointed by src
+ * This function fills "length" number of bytes of data starting from memory location
+ * pointed by src
  *
  * Inputs:
  * a) A pointer to the source memory location, src.
@@ -78,7 +108,15 @@ uint8_t my_reverse(uint8_t * src, uint32_t length)
 	/* Temporary array to store the reversed source array */
 	uint8_t temp[length];
 
-	/* Start swapping the characters, first character with the last character, second character with the second last and so on */
+	/* Check if the source pointer is NULL */
+	if (src == NULL)
+	{
+		/* return error */
+		return 1;
+	}
+
+	/* Start swapping the characters, first character with the last character, second
+	 * character with the second last and so on */
 	for (i = 0; i < length; i++)
 	{
 		*(temp + i) = *(src + length - 1 - i);
@@ -90,5 +128,6 @@ uint8_t my_reverse(uint8_t * src, uint32_t length)
 		*(src + i) = *(temp + i);
 	}
 
+	/* Successful completion */
 	return 0;
 }

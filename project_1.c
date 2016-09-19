@@ -1,3 +1,13 @@
+/*
+ ***********************************************************************************
+ * Description	: This file tests whether all the functions defined in memory.c
+ *		  work as per requirement
+ * Author	: Tarun
+ * Date		: 17 September 2016
+ * File name	: project_1.c
+ *
+ ***********************************************************************************
+ */
 #include "project_1.h"
 #include "memory.h"
 #include <stdio.h>
@@ -29,22 +39,27 @@ void project_1_report()
 		*(aptr_1 + i) = (INITIAL_ELEMENT + i);
 	}
 
+	printf("Initialize first 16 blocks in increments of 1 starting from 31:\n");
 	print_array(array, ARRAY_LENGTH);
 	/* Reset all elements from the 17th element to the end of the array using memzero function */
 	my_memzero(aptr_3, 16);
 
+	printf("Reset last 16 elements to zero:\n");
 	print_array(array, ARRAY_LENGTH);
 	/* Use memmove to move 8 bytes from aptr_1 to aptr_3 */
 	my_memmove(aptr_1, aptr_3, 8);
 
+	printf("Move 8 elements from index 0 to index 16:\n");
 	print_array(array, ARRAY_LENGTH);
 	/* Use memmove to move 16 bytes from aptr_2 to aptr_1 */
 	my_memmove(aptr_2, aptr_1, 16);
 
+	printf("Move 16 elements from index 8 to index 0:\n");
 	print_array(array, ARRAY_LENGTH);
 	/* Use reverse on aptr_1 to reverse the entire 32 bytes */
 	my_reverse(aptr_1, ARRAY_LENGTH);
 
+	printf("Reverse the entire array:\n");
 	/* Use printf to print out the entire 32 byte array in a nicely formatted way */
 	print_array(array, ARRAY_LENGTH);
 

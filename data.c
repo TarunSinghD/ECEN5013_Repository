@@ -1,8 +1,22 @@
+/*
+ ***********************************************************************************
+ * Description	: This file contains the functions for basic data conversion
+ *		  operations
+ * Author	: Tarun
+ * Date		: 17 September 2016
+ * File name	: data.c
+ *
+ ***********************************************************************************
+ */
+
 #include "data.h"
 #include <stdio.h>
+#define INT_MAX 2147483647
+#define INT_MIN	-2147483648
 
 /* Description:
- * This function converts the integer present in data to a null terminated string in str, conversion is done based on the base
+ * This function converts the integer present in data to a null terminated string in
+ * str, conversion is done based on the base
  *
  * Inputs:
  * a) A pointer to the string that will store the conversted ASCII string, str.
@@ -10,10 +24,12 @@
  * c) The base on which conversion is to be done, length.
  *
  * Output/ Return value:
- * A pointer to the converted string
+ * a) A pointer to the converted string.
+ * b) In case of error returns a NULL pointer. 
  * 
  * Note:
- * The function considers a negative number for base 10 only, number is considerd to be unsigned for the rest of the bases.
+ * The function considers a negative number for base 10 only, number is considerd to
+ * be unsigned for the rest of the bases.
  */
 int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
 {
@@ -26,7 +42,41 @@ int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
 	/* A variable to store individual digits temporarily */
 	uint8_t remainder = 0;
 
-	/* Zero will not be handled by the whilw loop below, need to handle it seperately */
+	/* The only bases supported are 2, 10, 16. If any base other than these is
+	 * passed, then it is an error */
+	/* Check for the validity of the base */
+	if ((base != 2) && (base != 10) && (base != 16))
+	{
+		/* Not a valid base, return error */
+		return NULL;
+	}
+
+	/* Check if a valid pointer is passed */
+	if (str == NULL)
+	{
+		/* return error */
+		return NULL;
+	}
+
+	/* If the number is negative and the base is 2 or 16, then it is a error */
+	if ((data < 0) && (base == 2))
+	{
+		/* return error */
+		*str = 'E';
+		*(str + 1) = '\0';
+		return NULL;
+	}
+
+	if ((data < 0) && (base == 16))
+	{
+		/* return error */
+		*str = 'E';
+		*(str + 1) = '\0';
+		return NULL;
+	}
+
+	/* Zero will not be handled by the while loop below, need to handle it
+	 * seperately */
 	if (data == 0)
 	{
 		str[i++] = '0';
@@ -35,7 +85,7 @@ int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
 		return str;
 	}
 
-
+	/* Negative numbers supported only for base 10 */
 	/* Check if the number is negative */
 	if ((data < 0) && (base == 10))
 	{
@@ -48,7 +98,8 @@ int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
 	{
 		remainder = (data % base);
 
-		/* Converting to a digit, based on the ASCII table, 0x30 or '0' needs to be added */
+		/* Converting to a digit, based on the ASCII table, 0x30 or '0'
+		 * needs to be added */
 		if (remainder <= 9)
 		{
 			*(str + i) = remainder + '0';
@@ -87,7 +138,8 @@ int8_t * my_itoa(int8_t * str, int32_t data, int32_t base)
  * a) A pointer to the string that will store the input ASCII string, str.
  *
  * Output/ Return value:
- * Converted integer value
+ * a) Converted integer value in case of successful conversion
+ * b) INT_MIN in case of error.
  */
 int32_t my_atoi(int8_t * str)
 {
@@ -100,6 +152,13 @@ int32_t my_atoi(int8_t * str)
 	/* Variable to keep track of the sign */
 	uint8_t sign = 0;
 
+	/* Check if a valid pointer is passed */
+	if (str == NULL)
+	{
+		/* return error */
+		return INT_MIN;
+	}
+
 	/* Check for negative numbers */
 	if (*str == '-')
 	{
@@ -107,10 +166,26 @@ int32_t my_atoi(int8_t * str)
 		sign = 1;
 	}
 	
-	/* Sweep through the characters of the number, one digit at a time and add it to result */
-	for (; /*(*(str + i) != '\n') ||*/ (*(str + i) != '\0'); i++)
+	/* Sweep through the characters of the number, one digit at a time and add
+	 * it to result */
+	for (; (*(str + i) != '\0'); i++)
 	{
+		/* Limit the number to 9 digits */
+		if (i > 8)
+		{
+			/* Number is too large, return error */
+			return INT_MIN;
+		}
+
+		/* Check if the character in the string is a valid digit */
+		if ((*(str + i) < '0') || (*(str + i) > '9'))
+		{
+			/* Invalid number, return error */
+			return INT_MIN;
+		}
+
 		result = (result * 10) + (*(str + i) - '0');
+
 	}
 
 	/* Check for sign */
@@ -123,14 +198,15 @@ int32_t my_atoi(int8_t * str)
 }
 
 /* Description:
- * This takes a pointer to memory and prints the hex output of bytes given a pointer to a memory location and a length of bytes to print
+ * This takes a pointer to memory and prints the hex output of bytes given a pointer to
+ * a memory location and a length of bytes to print
  *
  * Inputs:
  * a) A pointer to memory, str.
  * b) Length of bytes to print, length.
  *
  * Output/ Return value:
- * NA pointer to the converted string
+ * NA
  */
 void dump_memory(uint8_t * start, uint32_t length)
 {
@@ -155,7 +231,8 @@ void dump_memory(uint8_t * start, uint32_t length)
 
 
 /* Description:
- * Given data in big endian format, need to convert it to little endian format and return this converted data.
+ * Given data in big endian format, need to convert it to little endian format and
+ * return this converted data.
  *
  * Inputs:
  * a) 32 bit data in big endian format.
@@ -184,7 +261,8 @@ uint32_t big_to_little(uint32_t data)
 }
 
 /* Description:
- * Given data in little endian format, need to convert it to big endian format and return this converted data.
+ * Given data in little endian format, need to convert it to big endian format and return
+ * this converted data.
  *
  * Inputs:
  * a) 32 bit data in little endian format.
@@ -213,7 +291,8 @@ uint32_t little_to_big(uint32_t data)
 }	
 
 /* Description:
- * This function fills "length" number of bytes of data starting from memory location pointed by src
+ * This function fills "length" number of bytes of data starting from memory location
+ * pointed by src
  *
  * Inputs:
  * a) A pointer to the source memory location, src.
@@ -231,7 +310,8 @@ uint8_t my_reverse_data(int8_t * src, uint32_t length)
 	/* A loop variable */
 	uint8_t i = 0;
 
-	/* Start swapping the characters, first character with the last character, second character with the second last and so on */
+	/* Start swapping the characters, first character with the last character, second
+	 * character with the second last and so on */
 	for (i = 0; i < length; i++)
 	{
 		*(temp + i) = *(src + length - 1 - i);
