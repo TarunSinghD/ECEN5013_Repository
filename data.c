@@ -13,6 +13,66 @@
 #include <stdio.h>
 #define INT_MAX 2147483647
 #define INT_MIN	-2147483648
+#define DECIMAL_BASE 10
+
+/* Description:
+ * This function converts the floating point number present in n to a null terminated
+ * string in res, conversion is done to precision number of digits after the decimal
+ * point.
+ *
+ * Inputs:
+ * a) A pointer to the string that will store the conversted ASCII string, res.
+ * b) Floating point data, n.
+ * c) The number of digits to be printed after the decimal point, precision.
+ *
+ * Output/ Return value:
+ * NA
+ */
+void my_ftoa(float n, uint8_t * res, uint8_t precision)
+{
+	/* Extract the integer part from the floating point number */
+	int32_t integer_part = (int32_t) n;
+	printf("Integer part:%d\n", integer_part);
+
+	/* Temporary variable to store the string length */
+	uint8_t string_length = 0;
+
+	/* Call the itoa function to convert the integer part of the floating
+	 * point number to a '\0' terminated string.
+	 */
+	my_itoa(res, integer_part, DECIMAL_BASE);
+
+	/* Extract the fraction part from the floating point number */
+	float f_part = n - (float) integer_part;
+
+	/* Check if the fraction part is negative */
+	if (f_part < 0)
+	{
+		f_part = -f_part;
+	}
+
+	/* Calculate the string length */
+	while (*(res + string_length) != '\0')
+	{
+		string_length++;
+	}
+
+	if (precision != 0)
+	{
+		/* Place a decimal point after the integral part */
+		*(res + string_length) = '.';
+
+		/* Get precision number of digits after the decimal point */
+		while (precision)
+		{
+			f_part *= DECIMAL_BASE;
+			precision--;
+		}
+
+		/* Append these fracional digits */
+		my_itoa(res + string_length + 1, (int32_t) f_part, DECIMAL_BASE);
+	}	
+}
 
 /* Description:
  * This function converts the integer present in data to a null terminated string in

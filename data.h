@@ -18,5 +18,6 @@ void dump_memory(uint8_t * start, uint32_t length);
 uint32_t big_to_little(uint32_t data);
 uint32_t little_to_big(uint32_t data);
 uint8_t my_reverse_data(int8_t * src, uint32_t length);
+void my_ftoa(float n, uint8_t * res, uint8_t precision);
 
 #endif
