@@ -29,6 +29,7 @@
  */
 
 #include "circular_buffer.h"
+#include <stdlib.h>
 
 /* Description:
  * Please note that this function needs to be called first before you can use the
@@ -45,6 +46,7 @@ void initialize(C_Buffer * c_buffer)
 	/* Initialize the buffer to empty condition */
 	c_buffer->front = -1;
 	c_buffer->rear = -1;
+	c_buffer->buffer = (uint8_t *) malloc(sizeof(uint8_t) * MAX_BUFFER_LENGTH);
 }
 
 /* Description:
@@ -181,4 +183,74 @@ Status deleteElement(C_Buffer * c_buffer, uint8_t * element)
 	
 	/* Successful deletion */
 	return e_success;
+}
+
+void display(C_Buffer * c_buffer)
+{
+	if(c_buffer->front == -1)
+	{
+		printf("Queue is Emptyn");
+	   	return;
+	}
+	 
+	uint8_t i;
+	i = c_buffer->front;
+
+	if(c_buffer->front <= c_buffer->rear)
+	{
+		while(i <= c_buffer->rear)
+		{
+			printf("%d ",c_buffer->buffer[i++]);
+		}
+	}
+	   
+	else 
+	{
+	       while(i <= MAX_BUFFER_LENGTH - 1)
+	       printf("%d  ",c_buffer->buffer[i++]);
+	 
+	       i = 0;
+	       while(i <= c_buffer->rear)
+	       printf("%d   ",c_buffer->buffer[i++]);
+	      
+	}
+ 
+}
+
+void destroy_buffer(C_Buffer * c_buffer)
+{
+	free(c_buffer->buffer);
+}
+
+uint8_t calcLength(C_Buffer * c_buffer)
+{
+	if (c_buffer->front == -1)
+	{
+		/* Circular buffer is empty */
+		return 0;
+	}
+
+	if (c_buffer->front == c_buffer->rear)
+	{
+		/* Single element */
+		return 1;
+	}
+
+	else
+	{
+		uint8_t remaining_elements;
+
+		if (c_buffer->front > c_buffer->rear)
+		{
+			remaining_elements = ((c_buffer->front) - (c_buffer->rear) - 1 + MAX_BUFFER_LENGTH) % MAX_BUFFER_LENGTH;
+
+			return (MAX_BUFFER_LENGTH - remaining_elements);
+		}
+
+		else
+		{
+			return ((c_buffer->rear) - (c_buffer->front) + 1);
+		}
+	}
+
 }

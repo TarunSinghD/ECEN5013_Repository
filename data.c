@@ -32,7 +32,6 @@ void my_ftoa(float n, uint8_t * res, uint8_t precision)
 {
 	/* Extract the integer part from the floating point number */
 	int32_t integer_part = (int32_t) n;
-	printf("Integer part:%d\n", integer_part);
 
 	/* Temporary variable to store the string length */
 	uint8_t string_length = 0;
