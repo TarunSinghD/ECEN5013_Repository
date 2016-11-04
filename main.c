@@ -1,22 +1,25 @@
-#include "project_1.h"
-#include "memory.h"
 #include <stdio.h>
-
-#ifdef frdm
-#pragma GCC poison printf
-#endif
+#include <string.h>
+#include "data.h"
 
 int main()
 {
-	/* checking for the compile time switch PROJECT_1 */
-	#ifdef PROJECT_1
-		project_1_report();
+	int zeros;
+       	float	n;
+	int array[40];
 
-	#else
+	printf("Enter any number:\n");
+	scanf("%f", &n);
 
-		printf("PROJECT_1 compile time switch not given!!\n");
+	printf("Enter the number of zeros:\n");
+	scanf("%d", &zeros);
 
-	#endif
+	printf("Number = %f", n);
+
+	my_ftoa(n, array, 2);
+
+
+	printf("NUmber: %s\n", array);
 
 	return 0;
 }
