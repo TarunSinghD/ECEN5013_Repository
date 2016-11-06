@@ -12,6 +12,7 @@
 #define CIRCULAR_BUFFER_H
 #define MAX_BUFFER_LENGTH 10
 #include <stdint.h>
+#include <stdio.h>
 
 typedef enum
 {
@@ -25,8 +26,8 @@ typedef enum
 
 typedef struct
 {
-	uint8_t front;
-	uint8_t rear;
+	int8_t front;
+	int8_t rear;
 	uint8_t * buffer;
 
 } C_Buffer;
@@ -37,5 +38,7 @@ Status isBufferEmpty(C_Buffer * c_buffer);
 Status isBufferFull(C_Buffer * c_buffer);
 Status insertElement(C_Buffer * c_buffer, uint8_t element);
 Status deleteElement(C_Buffer * c_buffer, uint8_t * element);
+void display(C_Buffer * c_buffer);
+void destroy_buffer(C_Buffer * c_buffer);
 
 #endif
