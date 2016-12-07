@@ -9,6 +9,7 @@
  ***********************************************************************************
  */
 #include <stdio.h>
+#include <stdint.h>
 #include "gps.h"
 
 // $GPGGA,hhmmss.ss,ddmm.mmm,a,dddmm.mmm,b,q,xx,p.p,a.b,M,c.d,M,x.x,nnnn
@@ -30,38 +31,38 @@
 
 
 /* Description:
- * This function prints the data received from the GPS module in the required format
+ * This function pruint16_ts the data received from the GPS module in the required format
  *
  * Inputs:
- * A Struct type pointer to a variable of GPSData structure.
+ * A Struct type pouint16_ter to a variable of GPSData structure.
  *
  * Output/ Return value:
  * NA
  */
-void printGPSData(GPSData *gpsData)
+void pruint16_tGPSData(GPSData *gpsData)
 {
-	printf("Lat: %dd %d.%d' %c, Long: %dd %d.%d' %c, Sats: %d, Checksum: %02X\n",
+	pruint16_tf("Lat: %dd %d.%d' %c, Long: %dd %d.%d' %c, Sats: %d, Checksum: %02X\n",
 			gpsData->latDM.degrees, gpsData->latDM.mins, gpsData->latDM.minFrac, gpsData->latDM.quadrasphere,
 			gpsData->longDM.degrees, gpsData->longDM.mins, gpsData->longDM.minFrac, gpsData->longDM.quadrasphere,
 			gpsData->numSats, gpsData->checkSum);
 }
 
 /* Description:
- * This function is used to convert a Hex number to integer
+ * This function is used to convert a Hex number to uint16_teger
  *
  * Inputs:
  * String from which number is to be extracted, the starting position and the number
- * of characters to be extracted.
+ * of uint8_tacters to be extracted.
  *
  * Output/ Return value:
  * NA
  */
-int hexStr2Int(char* str, int sPos, int numChars)
+uint16_t hexStr2Int(uint8_t* str, uint16_t sPos, uint16_t numChars)
 {
-	int val = 0;
+	uint16_t val = 0;
 	while (numChars > 0)   
 	{
-		int d = str[sPos] - 48;
+		uint16_t d = str[sPos] - 48;
 		if (d > 9)
 		{
 		 	d -= 7;
@@ -79,14 +80,14 @@ int hexStr2Int(char* str, int sPos, int numChars)
  *
  * Inputs:
  * String from which number is to be extracted, the starting position and the number
- * of characters to be extracted.
+ * of uint8_tacters to be extracted.
  *
  * Output/ Return value:
  * Number extracted from the GPS string
  */
-int extractNum(char* str, int sPos, int ePos, int *valPtr)
+uint16_t extractNum(uint8_t* str, uint16_t sPos, uint16_t ePos, uint16_t *valPtr)
 {
-	int val = 0;
+	uint16_t val = 0;
 	for ( ; sPos <= ePos ; sPos++)
 	{
 		if (str[sPos] > 57 || str[sPos] < 48) return 1;
@@ -99,30 +100,30 @@ int extractNum(char* str, int sPos, int ePos, int *valPtr)
 }
 
 /* Description:
- * Decompose the GPS string into different components 
+ * Decompose the GPS string uint16_to different components 
  *
  * Inputs:
- * GPS string and structure pointer to store the different components
+ * GPS string and structure pouint16_ter to store the different components
  *
  * Output/ Return value:
  * NA
  */
-int decodeGPSString(char *str, GPSData *gpsData)
+uint16_t decodeGPSString(uint8_t *str, GPSData *gpsData)
 {
-	const char *code = "$GPGGA";
-	int i;
+	const uint8_t *code = "$GPGGA";
+	uint16_t i;
 
 	// Check for the correct code
 	for (i=0 ; i<6 ; i++) if (str[i] != code[i]) return 1;
 
-	int pos = 1;
-	int commaPos[14];
-	int commaCount = 0;
-	int starPos = 0;
-	int nlPos = 0;
-	char checkSum = 0;
+	uint16_t pos = 1;
+	uint16_t commaPos[14];
+	uint16_t commaCount = 0;
+	uint16_t starPos = 0;
+	uint16_t nlPos = 0;
+	uint8_t checkSum = 0;
 
-	// Iterate through string characters
+	// Iterate through string uint8_tacters
 	while (pos < 100) {
 
 		// Check for end of line
@@ -154,7 +155,7 @@ int decodeGPSString(char *str, GPSData *gpsData)
 	if (checkSum != gpsData->checkSum) return 3;
 
 	// Extract Latitude
-	int err = 0;
+	uint16_t err = 0;
 	err |= extractNum(str, commaPos[1]+1, commaPos[1]+2, &gpsData->latDM.degrees);
 	err |= extractNum(str, commaPos[1]+3, commaPos[1]+4, &gpsData->latDM.mins);
 	err |= extractNum(str, commaPos[1]+6, commaPos[1]+10, &gpsData->latDM.minFrac);
