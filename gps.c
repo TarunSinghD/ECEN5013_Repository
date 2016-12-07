@@ -39,9 +39,9 @@
  * Output/ Return value:
  * NA
  */
-void pruint16_tGPSData(GPSData *gpsData)
+void printGPSData(GPSData *gpsData)
 {
-	pruint16_tf("Lat: %dd %d.%d' %c, Long: %dd %d.%d' %c, Sats: %d, Checksum: %02X\n",
+	printf("Lat: %dd %d.%d' %c, Long: %dd %d.%d' %c, Sats: %d, Checksum: %02X\n",
 			gpsData->latDM.degrees, gpsData->latDM.mins, gpsData->latDM.minFrac, gpsData->latDM.quadrasphere,
 			gpsData->longDM.degrees, gpsData->longDM.mins, gpsData->longDM.minFrac, gpsData->longDM.quadrasphere,
 			gpsData->numSats, gpsData->checkSum);
