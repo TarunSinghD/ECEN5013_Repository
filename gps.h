@@ -11,18 +11,18 @@
 #define _GPS_H
 
 typedef struct {
-	int degrees;
-	int mins;
-	int minFrac;
-	char quadrasphere;
+	uint16_t degrees;
+	uint16_t mins;
+	uint16_t minFrac;
+	uint8_t quadrasphere;
 } DMData;
 
 typedef struct {
 	DMData latDM;
 	DMData longDM;
-	int quality;
-	int numSats;
-	int checkSum;
+	uint16_t quality;
+	uint16_t numSats;
+	uint16_t checkSum;
 } GPSData;
 
 typedef enum
@@ -31,9 +31,9 @@ typedef enum
 	e_gps_failure = 0;
 } GPS_Status_t;
 
-void printGPSData(GPSData *gpsData);
-int hexStr2Int(char* str, int sPos, int numChars);
-int extractNum(char* str, int sPos, int ePos, int *valPtr);
-int decodeGPSString(char *str, GPSData *gpsData);
+void pruint16_tGPSData(GPSData *gpsData);
+uint16_t hexStr2Int(uint8_t* str, uint16_t sPos, uint16_t numChars);
+uint16_t extractNum(uint8_t* str, uint16_t sPos, uint16_t ePos, uint16_t *valPtr);
+uint16_t decodeGPSString(uint8_t *str, GPSData *gpsData);
 
 #endif
